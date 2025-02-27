@@ -16,6 +16,9 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     implementation "org.apache.kafka:kafka-clients:7.8.1-ccs"
     implementation "org.slf4j:slf4j-simple:1.7.36"
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.2")
 }
 
 kotlin {

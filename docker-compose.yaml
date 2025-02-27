@@ -4,6 +4,7 @@ services:
     image: confluentinc/cp-kafka:latest
     volumes:
       - ./kafka-properties/server.properties:/etc/kafka/server.properties
+      - ./kafka-properties/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
       - ./kafka-data:/var/lib/kafka/data
     ports:
       - "9092:9092"
@@ -12,6 +13,7 @@ services:
         export CLUSTER_ID=$(kafka-storage random-uuid) &&
         kafka-storage format --ignore-formatted --cluster-id "$CLUSTER_ID" --config /etc/kafka/server.properties;
       fi &&
+      export KAFKA_OPTS="-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf" &&
       kafka-server-start /etc/kafka/server.properties'
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -20,7 +22,7 @@ services:
     environment:
       DYNAMIC_CONFIG_ENABLED: 'true'
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: keycloak/keycloak:latest
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
